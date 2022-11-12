@@ -1,42 +1,25 @@
-import { StyleSheet, SafeAreaView, Text, Image, Pressable, ImageBackground, View } from "react-native";
-import { useSpotifyAuth } from "./utils";
-import { Themes } from "./assets/Themes";
-import Authentication from "./app/components/authentication";
-import SongList from "./app/components/songlist.js";
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import AssignmentThree from "./assignmentThree";
+import Details from './app/components/details';
+import Preview from "./app/components/preview";
 
-const AuthButton = ({ authFunction }) => {
-  return <Pressable onPress={authFunction}>
-    <Authentication/>
-  </Pressable>
-};
+const Stack = createStackNavigator();
 
+export default function App(){
 
-export default function App() {
-  
-  const { token, tracks, getSpotifyAuth } = useSpotifyAuth(true); // static line
+    return(
 
-  let contentDisplayed = null;
-  
-  if (token) {
-    contentDisplayed = <SongList tracks={tracks}></SongList>
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{headerShown: false}}>
+                <Stack.Screen name="assignment-3" component={AssignmentThree} />
+                <Stack.Screen name="detailed-song" component={Details} />
+                <Stack.Screen name="song-preview" component={Preview} />
+            </Stack.Navigator>
+            
+        </NavigationContainer>
 
-  } else {
-    contentDisplayed = <AuthButton authFunction={getSpotifyAuth}/>;
-  }
+    );
 
-
-  return (
-    <SafeAreaView style={styles.container}>
-      {contentDisplayed}
-    </SafeAreaView>
-  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Themes.colors.background,
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-})
